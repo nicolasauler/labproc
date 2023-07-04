@@ -299,13 +299,13 @@ sequenceDiagram
     participant IRQ
     participant FIQ
     participant UNDEF
-    SVR->>user:
-    user->>UNDEF:
-    UNDEF->>user:
-    user->>FIQ:
-    FIQ->>IRQ:
-    IRQ->>FIQ:
-    FIQ->>user:
+    SVR->>user: 
+    user->>UNDEF: 
+    UNDEF->>user: 
+    user->>FIQ: 
+    FIQ->>IRQ: 
+    IRQ->>FIQ: 
+    FIQ->>user: 
 ```
 
 ## Resposta
@@ -340,7 +340,8 @@ int main(void) {
 
 * não tem tratamento dos vetores de interrupcoes
 * não tem volatile (bom de se colocar)
-* habilitar IRQ
+* habilitar IRQ/Global
+* floags I (ou F) no CPSR
 
 # Observações
 
