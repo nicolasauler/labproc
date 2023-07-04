@@ -299,20 +299,48 @@ sequenceDiagram
     participant IRQ
     participant FIQ
     participant UNDEF
-    SVR->>user: 
-    user->>UNDEF: b
-    UNDEF->>user: c
-    user->>FIQ: d
-    FIQ->>IRQ: e
-    IRQ->>FIQ: f
-    FIQ->>user: g
+    SVR->>user:
+    user->>UNDEF:
+    UNDEF->>user:
+    user->>FIQ:
+    FIQ->>IRQ:
+    IRQ->>FIQ:
+    FIQ->>user:
 ```
 
 ## Resposta
 
+Não é válida por causa da transicao fiq -> irq
+Undef -> quando vc tenta acessar um coprocessador nao existente
+Fiq -> qualquer uma configurada como fiq
+
 # Questão 14
+Um aluno usou o seguinte programa para criar um contador de "ticks" na placa
+Evaluator-7T. Explique todas as possíveis razões para não ter dado certo.
+
+```c
+uint32_t ticks;
+void __attribute__((interrupt "IRQ")) irq(void) {
+    ticks++;
+}
+
+void inicia_timer(void) {
+    TCNT = TDATA = 499999; //  valor para 100ms
+    TMOD = (TMOD & (~0x07)) | 0x01; // configura e liga
+    ticks = 0;
+}
+
+int main(void) {
+    inicia_timer();
+    while(1);
+}
+```
 
 ## Resposta
+
+* não tem tratamento dos vetores de interrupcoes
+* não tem volatile (bom de se colocar)
+* habilitar IRQ
 
 # Observações
 
