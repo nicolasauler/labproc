@@ -297,7 +297,7 @@ sequenceDiagram
     participant user
     participant SVR
     participant IRQ
-    SVR->>user
+    SVR->>user: a
     user->>SVR: loads html w/ SVR url
     SVR->>IRQ: request template
     IRQ->>SVR: html & javascript
