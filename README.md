@@ -1,5 +1,4 @@
 # Questão 1
-## Enunciado
 Escreva instruções de Máquina A32 para as seguintes pseudo-instruções:
 
 ```assembly
@@ -18,7 +17,6 @@ sub r0, r0, #1
 ```
 
 # Questão 2
-## Enunciado
 Escreva instruções de Máquina A32 para as seguintes pseudo-instruções:
 
 ```assembly
@@ -35,7 +33,6 @@ rsb r0, r0, #0
 ```
 
 # Questão 3
-## Enunciado
 Escreva instruções de Máquina A32 para as seguintes pseudo-instruções:
 
 ```assembly
@@ -54,7 +51,6 @@ add r0, r0, r0 // ou lsl r0, r0, #1 ou mov r0, r0, lsl #1
 ```
 
 # Questão 4
-## Enunciado
 Essas instruções existem no conjunto A32 ou não e por que?
 
 ```assembly
@@ -78,7 +74,6 @@ mov r1, r1, ror r3
 ```
 
 # Questão 5
-## Enunciado
 Essas instruções existem no conjunto A32 ou não e por que?
 
 ```assembly
@@ -94,7 +89,6 @@ No caso de blne, não funciona com registrador,
 e, sim, com label ou offset de pc.
 
 # Questão 6
-## Enunciado
 Essas instruções existem no conjunto A32 ou não e por que?
 
 ```assembly
@@ -124,7 +118,6 @@ strb r5, [sp], #4 // r5 é salvo em sp, sp vira sp + 4
 ```
 
 # Questão 7
-## Enunciado
 Essas instruções existem no conjunto A32 ou não e por que?
 
 ```assembly
@@ -134,7 +127,44 @@ ldr r3, [r1], r2, lsl #4
 
 ## Resposta
 
-# Questão 8
-## Enunciado
+Na primeira instrução:
+
+```assembly
+ldrle r0, [r8, r2, #-4]
+```
+
+Não há a estrutura com 3 argumentos em [...]
+
+Assim, poderia ser:
+
+```assembly
+ldrle r0, [r8, r2] // ou
+ldrle r0, [r8, #-4]
+```
+
+Já na segunda instrução, pega-se o valor na posição r1, e soma-se com o valor de (r2 shiftado em 4, ou, multiplicado por 2^4=16)
+e coloca-se esse resultado em r3.
+
+# Questão X
+Quais os problemas neste vetor de interrupções?
+
+```assembly
+.text
+.org 0
+v_reset: b _reset
+v_undef: b _undef
+v_swi: bl _swi
+v_abrt1: nop
+v_abrt2: b _panic
+b _panic
+v_irq: b _irq
+v_fiq: b _fiq
+```
 
 ## Resposta
+Apostila - Vetor de Interrupções
+
+bl: não pode ter o linked porque ele ficaria preso ali -> perde o endereço de retorno
+
+Está colocado no segmento de .text: erro
+Tem que começar com qualquer coisa diferente de texto que vai parar no endereço 0.
