@@ -297,12 +297,15 @@ sequenceDiagram
     participant user
     participant SVR
     participant IRQ
+    participant FIQ
+    participant UNDEF
     SVR->>user: a
-    user->>SVR: loads html w/ SVR url
-    SVR->>IRQ: request template
-    IRQ->>SVR: html & javascript
-    user->>SVR: set mermaid data on SVR
-    SVR->>SVR: render mermaid
+    user->>UNDEF: b
+    UNDEF->>user: c
+    user->>FIQ: d
+    FIQ->>IRQ: e
+    IRQ->>FIQ: f
+    FIQ->>user: g
 ```
 
 ## Resposta
