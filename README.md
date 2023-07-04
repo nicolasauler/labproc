@@ -208,7 +208,7 @@ f1:
     ldr r0, =b
     ldr r2, [r0]
     add r1, r1, r2
-    mov lr, pc
+    mov pc, lr
 
 b: .word 0x0000caca
 ea: .word a
@@ -266,6 +266,48 @@ pop {r4, pc}
 Tem de se salvar lr.
 
 # Questão 12
+
+Considere a função f2 abaixo e explique a ordem na qual o compilador vai colocar
+as instruções strb, add e fadd (instrução do coprocessador 10).
+
+```c
+int f2(int a, float b, char c) {
+    char d = a + c;
+    return d + b;
+}
+```
+
+## Resposta
+
+1. add: soma do "a" e "c"
+2. strb: por causa do "d"
+3. fadd: soma de pf de "d+b"
+
+strb vai salvar na pilha "d"
+como "d" é char, tem 1 byte
+
+Além disso, como "d" é char, precisa-se matar os bits mais significativos.
+
+# Questão 13
+A sequência de estados a seguir é válida? Aponte uma possível sequência de eventos
+para causá-la.
+
+```mermaid
+sequenceDiagram
+    participant dotcom
+    participant iframe
+    participant viewscreen
+    dotcom->>iframe: loads html w/ iframe url
+    iframe->>viewscreen: request template
+    viewscreen->>iframe: html & javascript
+    iframe->>dotcom: iframe ready
+    dotcom->>iframe: set mermaid data on iframe
+    iframe->>iframe: render mermaid
+```
+
+## Resposta
+
+# Questão 14
 
 ## Resposta
 
