@@ -63,24 +63,74 @@ adds r3, pc, r0, rol #1
 ```
 
 ## Resposta
+mov errado pois só pode 2 parametros (e tem 3)
 rol não existe
-mov errado pois só pode 2 parametros
 
 ```assembly
+naosei
+adds r3, pc, r0, ror #31
+```
+
+Se usasse registrador na segunda instrução:
+```assembly
+rsb r3, r2, #32
+mov r1, r1, ror r3
 ```
 
 # Questão 5
 ## Enunciado
+Essas instruções existem no conjunto A32 ou não e por que?
+
+```assembly
+muls r8, [r3, #4]!
+blne r10
+```
 
 ## Resposta
+Não, pois muls não pode acessar vetorial, além disso,
+muls necessita de 3 params.
+
+No caso de blne, não funciona com registrador,
+e, sim, com label ou offset de pc.
 
 # Questão 6
 ## Enunciado
+Essas instruções existem no conjunto A32 ou não e por que?
+
+```assembly
+rsb r4, r9 #0x1ff
+strb r5, [sp]!, #4
+```
 
 ## Resposta
+Na primeira instrução, não existe rsb com imediato.
+
+Quanto a segunda instrução:
+! significa pré-indexado e strb é store byte
+
+Quando há pré-indexado, sp é atualizado:
+```assembly
+strb r5, [sp, #4]! // r5 é salvo em sp + 4, sp vira sp + 4
+```
+
+Quando não tem !, sp não é atualizado
+```assembly
+strb r5, [sp, #4] // r5 é salvo em sp + 4
+```
+
+Quando [sp], #4 -> pós indexado, r5 é guardado em sp, e depois sp é atualizado
+```assembly
+strb r5, [sp], #4 // r5 é salvo em sp, sp vira sp + 4
+```
 
 # Questão 7
 ## Enunciado
+Essas instruções existem no conjunto A32 ou não e por que?
+
+```assembly
+ldrle r0, [r8, r2, #-4]
+ldr r3, [r1], r2, lsl #4
+```
 
 ## Resposta
 
