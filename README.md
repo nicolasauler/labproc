@@ -145,7 +145,7 @@ ldrle r0, [r8, #-4]
 Já na segunda instrução, pega-se o valor na posição r1, e soma-se com o valor de (r2 shiftado em 4, ou, multiplicado por 2^4=16)
 e coloca-se esse resultado em r3.
 
-# Questão X
+# Questão 8
 Quais os problemas neste vetor de interrupções?
 
 ```assembly
@@ -162,9 +162,117 @@ v_fiq: b _fiq
 ```
 
 ## Resposta
-Apostila - Vetor de Interrupções
+Ler Apostila - Vetor de Interrupções
 
 bl: não pode ter o linked porque ele ficaria preso ali -> perde o endereço de retorno
 
-Está colocado no segmento de .text: erro
-Tem que começar com qualquer coisa diferente de texto que vai parar no endereço 0.
+Está colocado no segmento de .text: erro,
+tem que começar com qualquer coisa diferente de texto que vai parar no endereço 0.
+
+# Questão 9
+Há algo errado neste código em assembler?
+
+```assembly
+.data
+a: .word 0x0000f0f0
+
+.text
+.global f1
+f1:
+    ldr r0, =a
+    ldr r1, [r0]
+    ldr r0, =b
+    ldr r2, [r0]
+    add r1, r1, r2
+    mov lr, pc
+
+b: .word 0x0000caca
+```
+
+## Resposta
+Mover pc para lr está errado.
+Não tem como saber o valor "a" porque ele está em outro segmento.
+Ou seja, assembler não sabe endereço de "a", apenas o linker.
+
+A forma correta seria, por exemplo:
+
+```assembly
+.data
+a: .word 0x0000f0f0
+
+.text
+.global f1
+f1:
+    ldr r0, =ea
+    ldr r1, [r0]
+    ldr r0, =b
+    ldr r2, [r0]
+    add r1, r1, r2
+    mov lr, pc
+
+b: .word 0x0000caca
+ea: .word a
+```
+
+# Questão 10
+Implemente a função f2 em assembler (A32):
+
+```c
+int f2(int a, int b) {
+    int c = a + 4*b;
+    return c;
+}
+```
+
+## Resposta
+
+```assembly
+f1:
+    add r0, r0, r1, lsl #2
+    bx  lr
+```
+
+A função soma r0 a r1 shiftado de 2, ou seja, multiplicado de 2^2 e salva em r0,
+que já é o valor a ser retornado.
+
+Não precisa salvar r0, r1, r2 e r3, porque de acordo com sei lá qual regra arbitrária
+eles são rascunho/descartáveis.
+Eles também são os argumentos e r0 é retorno da função.
+Ou seja, sempre que se quer salvar algum desses, tem de se usar outros regs.
+
+# Questão 11
+Implemente uma função f3 em assembly (A32), assumindo que exista uma função do
+runtime chamada _mod32i() que calcula o resto da divisão:
+
+```c
+int f3(int a, int b) {
+    if(a % b) return b; // usa _mod32i para calcular o resto
+    else return 0;
+}
+```
+
+## Resposta
+
+```assembly
+push {r4, lr}
+mov r4, r1
+bl  _mod32i
+adds r0, r0, #0
+movne r0, r4
+moveq r0, #0
+pop {r4, pc}
+```
+
+Tem de se salvar lr.
+
+# Questão 12
+
+## Resposta
+
+# Observações
+
+CPUlator
+O que é bx?
+vetor de interrupt
+
+adds?
